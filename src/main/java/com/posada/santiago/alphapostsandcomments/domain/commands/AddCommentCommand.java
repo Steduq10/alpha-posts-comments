@@ -1,6 +1,8 @@
 package com.posada.santiago.alphapostsandcomments.domain.commands;
 
 import co.com.sofka.domain.generic.Command;
+import lombok.AllArgsConstructor;
+
 
 public class AddCommentCommand extends Command {
 
@@ -10,6 +12,13 @@ public class AddCommentCommand extends Command {
     private String content;
 
     public AddCommentCommand() {
+    }
+
+    public AddCommentCommand(String postId ,String commentId, String author, String content) {
+        this.postId = postId;
+        this.commentId = commentId;
+        this.author = author;
+        this.content = content;
     }
 
     public String getPostId() {

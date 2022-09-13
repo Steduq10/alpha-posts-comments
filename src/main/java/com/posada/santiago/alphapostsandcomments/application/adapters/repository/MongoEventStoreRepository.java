@@ -4,6 +4,7 @@ import co.com.sofka.domain.generic.DomainEvent;
 import com.google.gson.Gson;
 import com.posada.santiago.alphapostsandcomments.application.generic.models.StoredEvent;
 import com.posada.santiago.alphapostsandcomments.business.gateways.DomainEventRepository;
+import com.posada.santiago.alphapostsandcomments.domain.Comment;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -54,5 +55,19 @@ public class MongoEventStoreRepository implements DomainEventRepository {
                         throw new IllegalStateException("couldnt find domain event");
                     }
                 });
+    }
+
+    @Override
+    public Mono<DomainEvent> deleteEvent(String id) {
+    var query = Query.query(Criteria.where("aggregateRootId").is(id));
+         return template.findAndRemove(query, DocumentEventStored.class).map(storeEvent -> {
+             try {
+                 return  (DomainEvent) gson.fromJson(storeEvent.getStoredEvent().getEventBody(), Class.forName(storeEvent.getStoredEvent().getTypeName()));
+             } catch (ClassNotFoundException e) {
+                 e.printStackTrace();
+                 throw new IllegalStateException("couldnt find domain event");
+             }
+         });
+
     }
 }

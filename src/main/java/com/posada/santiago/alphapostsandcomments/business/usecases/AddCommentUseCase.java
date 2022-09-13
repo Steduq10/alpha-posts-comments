@@ -10,11 +10,13 @@ import com.posada.santiago.alphapostsandcomments.domain.values.Author;
 import com.posada.santiago.alphapostsandcomments.domain.values.CommentId;
 import com.posada.santiago.alphapostsandcomments.domain.values.Content;
 import com.posada.santiago.alphapostsandcomments.domain.values.PostId;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Component
+
 public class AddCommentUseCase extends UseCaseForCommand<AddCommentCommand> {
 
     private final DomainEventRepository repository;
@@ -31,12 +33,14 @@ public class AddCommentUseCase extends UseCaseForCommand<AddCommentCommand> {
                 .collectList()
                 .flatMapIterable(events -> {
                     Post post = Post.from(PostId.of(command.getPostId()), events);
-                    post.addAComment(CommentId.of(command.getCommentId()), new Author(command.getAuthor()), new Content(command.getContent()));
+                    post.addAComment(CommentId.of(command.getCommentId()), new Author(command.getAuthor()), new Content(command.getContent())); //CommentId.of(command.getCommentId())
                     return post.getUncommittedChanges();
-                }).map(event -> {
+                })
+                .map(event -> {
                     bus.publish(event);
                     return event;
-                }).flatMap(event -> repository.saveEvent(event))
+                })
+                .flatMap(event -> repository.saveEvent(event))
         );
 
     }

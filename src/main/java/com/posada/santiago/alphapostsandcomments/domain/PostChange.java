@@ -1,6 +1,7 @@
 package com.posada.santiago.alphapostsandcomments.domain;
 
 import co.com.sofka.domain.generic.EventChange;
+import com.posada.santiago.alphapostsandcomments.domain.events.CommentDeleted;
 import com.posada.santiago.alphapostsandcomments.domain.events.PostCreated;
 import com.posada.santiago.alphapostsandcomments.domain.values.Title;
 import com.posada.santiago.alphapostsandcomments.domain.events.CommentAdded;
@@ -20,6 +21,11 @@ public class PostChange extends EventChange {
         });
 
         apply((CommentAdded event)-> {
+            Comment comment = new Comment(CommentId.of(event.getId()), new Author(event.getAuthor()), new Content(event.getContent()));
+            post.comments.add(comment);
+        });
+
+        apply((CommentDeleted event) -> {
             Comment comment = new Comment(CommentId.of(event.getId()), new Author(event.getAuthor()), new Content(event.getContent()));
             post.comments.add(comment);
         });
