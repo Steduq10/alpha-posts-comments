@@ -21,7 +21,7 @@ public class CreateUserUseCase {
         return this.userRepository
                 .save(u.toBuilder()
                         .password(passwordEncoder.encode(u.getPassword()))
-                        .email(u.getUsername()+"@mail.com")
+                        .email(u.getUsername()+"@gmail.com")
                         .roles(new ArrayList<>(){{add(role);}}).build());
     }
 }

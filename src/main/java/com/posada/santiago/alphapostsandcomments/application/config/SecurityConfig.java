@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .authorizeExchange( access -> access
                         .pathMatchers(CREATE_POST).hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                        // .pathMatchers(CREATE_POST).hasAuthority("ROLE_USER")
-                        .pathMatchers(CREATE_USERS).hasAuthority("ROLE_ADMIN")
+                      //  .pathMatchers(CREATE_USERS).hasAuthority("ROLE_ADMIN")
                         .anyExchange().permitAll()
                 ).addFilterAt(new JwtTokenAuthenticationFilter(tokenProvider), SecurityWebFiltersOrder.HTTP_BASIC)
                 .build();
