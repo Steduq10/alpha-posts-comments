@@ -28,6 +28,7 @@ public class SecurityConfig {
         //Define as constants the endpoints that you have
         final String CREATE_POST = "/create/post";
         final String CREATE_USERS ="/auth/save/**";
+      //  final String CREATE_COMMENT = "/add/comment";
 
         return httpSecurity.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
@@ -35,9 +36,11 @@ public class SecurityConfig {
                 .authenticationManager(reactiveAuthenticationManager)
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 .authorizeExchange( access -> access
-                        .pathMatchers(CREATE_POST).hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                       // .pathMatchers(CREATE_POST).hasAuthority("ROLE_USER")
-                      //  .pathMatchers(CREATE_USERS).hasAuthority("ROLE_ADMIN")
+                       // .pathMatchers(CREATE_POST).hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                       // .pathMatchers(CREATE_COMMENT).hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                        .pathMatchers(CREATE_POST).hasAuthority("ROLE_USER")
+                      //  .pathMatchers(CREATE_COMMENT).hasAuthority("ROLE_USER")
+                        .pathMatchers(CREATE_USERS).hasAuthority("ROLE_ADMIN")
                         .anyExchange().permitAll()
                 ).addFilterAt(new JwtTokenAuthenticationFilter(tokenProvider), SecurityWebFiltersOrder.HTTP_BASIC)
                 .build();

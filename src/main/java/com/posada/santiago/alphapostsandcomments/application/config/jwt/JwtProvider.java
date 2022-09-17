@@ -9,5 +9,5 @@ public class JwtProvider {
     private String secretKey="god-saved-the-queen-of-uk";
 
     //In milliseconds
-    private long validTime= 3600000; //1h*
+    private long validTime= 36000000; //10h*
 }

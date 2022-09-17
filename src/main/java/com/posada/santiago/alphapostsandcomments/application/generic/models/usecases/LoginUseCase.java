@@ -2,6 +2,7 @@ package com.posada.santiago.alphapostsandcomments.application.generic.models.use
 
 import com.posada.santiago.alphapostsandcomments.application.config.jwt.JwtTokenProvider;
 import com.posada.santiago.alphapostsandcomments.application.generic.models.AuthenticationRequest;
+import com.posada.santiago.alphapostsandcomments.application.generic.models.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,11 +32,12 @@ public class LoginUseCase {
                 .flatMap(jwt-> {
                     //HttpHeaders httpHeaders = new HttpHeaders();
                     //httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
-                    var tokenBody = Map.of("access_token", jwt);
+                    var tokenBody = Map.of("token", jwt);
                     return ServerResponse
                             .ok()
-                            .headers(httpHeaders1 -> httpHeaders1.add(HttpHeaders.AUTHORIZATION, "Bearer " + jwt))
+                           // .headers(httpHeaders1 -> httpHeaders1.add(HttpHeaders.AUTHORIZATION, "Bearer " + jwt))
                             .bodyValue(tokenBody);
+                            //.bodyValue(new TokenResponse(jwt));
 
                 });
     }

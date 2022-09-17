@@ -11,12 +11,13 @@ import com.posada.santiago.alphapostsandcomments.domain.values.CommentId;
 import com.posada.santiago.alphapostsandcomments.domain.values.Content;
 import com.posada.santiago.alphapostsandcomments.domain.values.PostId;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Component
-
+@Slf4j
 public class AddCommentUseCase extends UseCaseForCommand<AddCommentCommand> {
 
     private final DomainEventRepository repository;
